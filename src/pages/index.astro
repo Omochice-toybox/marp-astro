@@ -1,0 +1,65 @@
+---
+import { Marp } from "@marp-team/marp-core";
+import fs from "node:fs";
+import { parse } from "node-html-parser";
+import "../styles/bespoke.css";
+
+const marp = new Marp({
+  html: true,
+});
+const content = fs.readFileSync("./src/pages/presentation.md", "utf-8");
+const { html, css } = marp.render(content);
+const slide = parse(html)
+  .querySelector(".marpit")
+  ?.setAttribute("id", ":$p")
+  .toString();
+if (!slide) {
+  throw new Error("No slide found");
+}
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <style set:html={css}></style>
+  </head>
+  <body>
+    <Fragment set:html={slide} />
+    <script>
+      import "@marp-team/marp-cli/lib/bespoke";
+    </script>
+    <div class="bespoke-marp-osc">
+      <button
+        data-bespoke-marp-osc="prev"
+        tabindex="-1"
+        title="Previous slide"
+      >
+        Previous slide
+      </button>
+      <span data-bespoke-marp-osc="page"></span>
+      <button
+        data-bespoke-marp-osc="next"
+        tabindex="-1"
+        title="Next slide"
+      >
+        Next slide
+      </button>
+      <button
+        data-bespoke-marp-osc="fullscreen"
+        tabindex="-1"
+        title="Toggle fullscreen (f)"
+      >
+        Toggle fullscreen
+      </button>
+      <button
+        data-bespoke-marp-osc="presenter"
+        tabindex="-1"
+        title="Open presenter view (p)"
+      >
+        Open presenter view
+      </button>
+    </div>
+  </body>
+</html>

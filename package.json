@@ -1,0 +1,26 @@
+{
+  "name": "marp-astro",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@marp-team/marp-cli": "^3.4.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.5.10",
+    "@biomejs/biome": "^1.6.3",
+    "@marp-team/marp-core": "^3.9.0",
+    "astro": "^4.5.10",
+    "node-html-parser": "^6.1.12",
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "typescript": "^5.4.3"
+  }
+}
