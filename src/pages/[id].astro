@@ -1,0 +1,108 @@
+---
+import { parse } from "node-html-parser";
+import "@/styles/bespoke.css";
+import { getSlides } from "@/composable/slides";
+
+export async function getStaticPaths() {
+  return await getSlides();
+}
+
+interface Props {
+  html: string;
+  title: string;
+  css: string;
+  comments: string[][];
+}
+
+const { html, title, css, comments } = Astro.props;
+
+const doc = parse(html);
+const slide = doc
+  .querySelector(".marpit")
+  ?.setAttribute("id", ":$p")
+  .toString();
+if (!slide) {
+  throw new Error("No slide found");
+}
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{title}</title>
+    <style set:html={css}></style>
+    <meta
+      name="og:title"
+      content={title}
+    />
+    <meta
+      name="author"
+      content="Omochice"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width,height=device-height,initial-scale=1.0"
+    />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="ie=edge"
+    />
+    <meta
+      name="apple-mobile-web-app-capable"
+      content="yes"
+    />
+    <meta
+      name="og:type"
+      content="website"
+    />
+  </head>
+  <body>
+    <Fragment set:html={slide} />
+    {
+      comments.map((comment, idx) => (
+        <div
+          class="bespoke-marp-note"
+          data-index={idx}
+          tabindex="0"
+        >
+          <p>{comment.join("\n")}</p>
+        </div>
+      ))
+    }
+    <script>
+      import "@marp-team/marp-cli/lib/bespoke";
+    </script>
+    <div class="bespoke-marp-osc">
+      <button
+        data-bespoke-marp-osc="prev"
+        tabindex="-1"
+        title="Previous slide"
+      >
+        Previous slide
+      </button>
+      <span data-bespoke-marp-osc="page"></span>
+      <button
+        data-bespoke-marp-osc="next"
+        tabindex="-1"
+        title="Next slide"
+      >
+        Next slide
+      </button>
+      <button
+        data-bespoke-marp-osc="fullscreen"
+        tabindex="-1"
+        title="Toggle fullscreen (f)"
+      >
+        Toggle fullscreen
+      </button>
+      <button
+        data-bespoke-marp-osc="presenter"
+        tabindex="-1"
+        title="Open presenter view (p)"
+      >
+        Open presenter view
+      </button>
+    </div>
+  </body>
+</html>

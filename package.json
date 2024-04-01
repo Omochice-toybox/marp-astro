@@ -1,17 +1,26 @@
 {
   "name": "marp-astro",
-  "type": "module",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "check": "npm-run-all check:*",
+    "check:astro": "astro check",
+    "check:code": "prettier --check src/**/*.{js,ts,astro} ./*{js,json}",
+    "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "fmt": "npm-run-all fmt:*",
+    "fmt:code": "prettier --write src/**/*.{js,ts,astro} ./*{js,json}",
+    "fmt:package": "sort-package-json"
   },
   "dependencies": {
-    "@marp-team/marp-cli": "^3.4.0"
+    "@astrojs/tailwind": "^5.1.0",
+    "@marp-team/marp-cli": "^3.4.0",
+    "sakura.css": "^1.5.0",
+    "tailwindcss": "^3.4.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.5.10",
@@ -19,8 +28,11 @@
     "@marp-team/marp-core": "^3.9.0",
     "astro": "^4.5.10",
     "node-html-parser": "^6.1.12",
+    "npm-run-all2": "^6.1.2",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.13.0",
-    "typescript": "^5.4.3"
+    "sort-package-json": "^2.10.0",
+    "typescript": "^5.4.3",
+    "yaml": "^2.4.1"
   }
 }
